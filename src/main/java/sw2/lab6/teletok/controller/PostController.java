@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import sw2.lab6.teletok.dto.ListaPosts;
 import sw2.lab6.teletok.repository.PostRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PostController {
@@ -14,8 +18,22 @@ public class PostController {
 
     @GetMapping(value = {"", "/"})
     public String listPost(Model model){
-        model.addAttribute("listaposts",postRepository.obtenerListaPosts());
+        List<ListaPosts> listaPosts = postRepository.obtenerListaPosts();
+        List<String> mensajes = new ArrayList<String>();
 
+        for (ListaPosts lp:
+             listaPosts) {
+
+            if (lp.getHora() >= 1){
+                mensajes.add("Publicado hace " + lp.getHora() + " horas");
+            }else if (lp.getHora() < 1 && lp.getMinuto() >= 1){
+                mensajes.add("Publicado hace " + lp.getMinuto() + " minutos");
+            }else {
+                mensajes.add("Publicado hace " + lp.getSegundo() + " segundos");
+            }
+        }
+        model.addAttribute("listaposts",postRepository.obtenerListaPosts());
+        model.addAttribute("mesj",mensajes);
         return "post/list";
     }
 
