@@ -16,13 +16,15 @@ import java.util.Optional;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import sw2.lab6.teletok.dto.ListaPosts;
+import sw2.lab6.teletok.repository.PostRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import sw2.lab6.teletok.entity.Post;
 import sw2.lab6.teletok.entity.StorageServices;
 import sw2.lab6.teletok.entity.User;
 import sw2.lab6.teletok.repository.PostRepository;
-
-
 import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -33,8 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import org.springframework.web.bind.annotation.*;
-import sw2.lab6.teletok.repository.PostRepository;
+
+
 @Controller
 public class PostController {
     @Autowired
@@ -46,8 +48,22 @@ public class PostController {
 
     @GetMapping(value = {"", "/"})
     public String listPost(Model model){
-        model.addAttribute("listaposts",postRepository.obtenerListaPosts());
+        List<ListaPosts> listaPosts = postRepository.obtenerListaPosts();
+        List<String> mensajes = new ArrayList<String>();
 
+        for (ListaPosts lp:
+             listaPosts) {
+
+            if (lp.getHora() >= 1){
+                mensajes.add("Publicado hace " + lp.getHora() + " horas");
+            }else if (lp.getHora() < 1 && lp.getMinuto() >= 1){
+                mensajes.add("Publicado hace " + lp.getMinuto() + " minutos");
+            }else {
+                mensajes.add("Publicado hace " + lp.getSegundo() + " segundos");
+            }
+        }
+        model.addAttribute("listaposts",postRepository.obtenerListaPosts());
+        model.addAttribute("mesj",mensajes);
         return "post/list";
     }
 
