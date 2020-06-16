@@ -1,13 +1,21 @@
 package sw2.lab6.teletok.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import sw2.lab6.teletok.repository.PostRepository;
 
 @Controller
 public class PostController {
 
+    @Autowired
+    PostRepository postRepository;
+
     @GetMapping(value = {"", "/"})
-    public String listPost(){
+    public String listPost(Model model){
+        model.addAttribute("listaposts",postRepository.obtenerListaPosts());
+
         return "post/list";
     }
 
