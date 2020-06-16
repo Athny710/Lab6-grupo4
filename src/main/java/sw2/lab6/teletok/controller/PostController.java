@@ -88,7 +88,14 @@ public class PostController {
                 int año = fecha.get(Calendar.YEAR);
                 int mes = fecha.get(Calendar.MONTH);
                 int dia = fecha.get(Calendar.DAY_OF_MONTH);
-                String fechaActual = año + "-" + (mes+1) + "-" + dia ;
+                int hora = fecha.get(Calendar.HOUR_OF_DAY);
+                int minuto = fecha.get(Calendar.MINUTE);
+                int segundo = fecha.get(Calendar.SECOND);
+                System.out.println("Fecha Actual: "
+                        + dia + "/" + (mes+1) + "/" + año);
+                System.out.printf("Hora Actual: %02d:%02d:%02d %n",
+                        hora, minuto, segundo);
+                String fechaActual = año + "-" + (mes+1) + "-" + dia + " " + hora + ":"+minuto+":"+segundo;
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = format.parse(fechaActual);
                 post.setCreationDate(date);
