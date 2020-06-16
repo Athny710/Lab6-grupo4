@@ -7,11 +7,12 @@
     <div class="row justify-content-md-center mt-3">
         <div class="col col-xs-12 col-md-6">
             <div class="card">
+                <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
                 <div class="card-header navbar-light text-center" style="background-color: #e3f2fd;">
                     Nuevo Post
                 </div>
                 <div class="card-body">
-                    <form action="#" method="post">
+                    <form th:action="@{/post/save}" method="post"  enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="description">Descripción</label>
                             <textarea class="form-control" id="description" name="description" th:value="${post.description}"></textarea>

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sw2.lab6.teletok.entity.Post;
 import sw2.lab6.teletok.entity.StorageServices;
 import sw2.lab6.teletok.entity.User;
@@ -43,7 +44,7 @@ public class PostController {
 
     @PostMapping("/post/save")
     public String savePost(@ModelAttribute("post") @Valid Post post, BindingResult bindingResult,
-                           @RequestParam("archivo") MultipartFile file, HttpSession session, Model model) throws ParseException {
+                           @RequestParam("archivo") MultipartFile file, HttpSession session, Model model, RedirectAttributes attr) throws ParseException {
         if(bindingResult.hasErrors()){
             return "post/new";
         }else {
@@ -62,6 +63,7 @@ public class PostController {
                 post.setMediaUrl(map.get("fileName"));
                 post.setUser(usuarioLog);
                 postRepository.save(post);
+                attr.addFlashAttribute("msg", "Creado Correctamente");
                 return "redirect:/post/";
             }else {
                 model.addAttribute("msg", map.get("msg"));
