@@ -138,4 +138,10 @@ public class PostController {
     public String postLike() {
         return "";
     }
+
+    @PostMapping("/post/buscar")
+    public String postBuscar() {
+        return "";
+    }
+
 }
