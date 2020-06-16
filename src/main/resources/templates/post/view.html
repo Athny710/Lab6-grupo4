@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/base.html :: head(title='TeleTok - Ver Post')"></head>
 <body>
 <div class="container container-app">
@@ -31,7 +31,7 @@
                             </div>
                         </li>
                     </ul>
-                    <form th:action="@{post/comment}" method="post">
+                    <form sec:authorize="isAuthenticated()" th:action="@{post/comment}" method="post">
                         <input type="hidden" th:text="${post.id}" name="postid" id="postid">
                         <div class="form-group">
                             <textarea class="form-control" name="coment" id="coment"></textarea>
