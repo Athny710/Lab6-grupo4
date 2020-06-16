@@ -21,6 +21,7 @@ import sw2.lab6.teletok.repository.PostRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sw2.lab6.teletok.entity.Post;
 import sw2.lab6.teletok.entity.StorageServices;
 import sw2.lab6.teletok.entity.User;
@@ -75,7 +76,7 @@ public class PostController {
 
     @PostMapping("/post/save")
     public String savePost(@ModelAttribute("post") @Valid Post post, BindingResult bindingResult,
-                           @RequestParam("archivo") MultipartFile file, HttpSession session, Model model) throws ParseException {
+                           @RequestParam("archivo") MultipartFile file, HttpSession session, Model model, RedirectAttributes attr) throws ParseException {
         if(bindingResult.hasErrors()){
             return "post/new";
         }else {
@@ -87,13 +88,21 @@ public class PostController {
                 int año = fecha.get(Calendar.YEAR);
                 int mes = fecha.get(Calendar.MONTH);
                 int dia = fecha.get(Calendar.DAY_OF_MONTH);
-                String fechaActual = año + "-" + (mes+1) + "-" + dia ;
+                int hora = fecha.get(Calendar.HOUR_OF_DAY);
+                int minuto = fecha.get(Calendar.MINUTE);
+                int segundo = fecha.get(Calendar.SECOND);
+                System.out.println("Fecha Actual: "
+                        + dia + "/" + (mes+1) + "/" + año);
+                System.out.printf("Hora Actual: %02d:%02d:%02d %n",
+                        hora, minuto, segundo);
+                String fechaActual = año + "-" + (mes+1) + "-" + dia + " " + hora + ":"+minuto+":"+segundo;
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = format.parse(fechaActual);
                 post.setCreationDate(date);
                 post.setMediaUrl(map.get("fileName"));
                 post.setUser(usuarioLog);
                 postRepository.save(post);
+                attr.addFlashAttribute("msg", "Creado Correctamente");
                 return "redirect:/post/";
             }else {
                 model.addAttribute("msg", map.get("msg"));
