@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    @Query(value = "select p.description as descripcion, p.media_url as foto, count(pl.id) as megusta, count(pc.message) as comentarios, us.fullname as nombrec, hour(p.creation_date) as hora, minute(p.creation_date) as minuto, second(p.creation_date) as segundo from post p\n" +
+    @Query(value = "select p.description as descripcion, p.media_url as foto, count(pl.id) as megusta, count(pc.message) as comentarios, us.fullname as nombrec, hour(now()) - (p.creation_date) as hora, minute(now()) - (p.creation_date) as minuto, second(now()) - (p.creation_date) as segundo from post p\n" +
             "inner join post_comment pc on p.id = pc.post_id\n" +
             "inner join user uspm on pc.user_id = uspm.id\n" +
             "inner join user us on p.user_id = us.id\n" +
@@ -20,7 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             "order by p.creation_date desc", nativeQuery = true)
     List<ListaPosts> obtenerListaPosts();
 
-    @Query(value = "select p.description as descripcion, p.media_url as foto, count(pl.id) as megusta, count(pc.message) as comentarios, us.fullname as nombrec, hour(p.creation_date) as hora, minute(p.creation_date) as minuto, second(p.creation_date) as segundo from post p\n" +
+    @Query(value = "select p.description as descripcion, p.media_url as foto, count(pl.id) as megusta, count(pc.message) as comentarios, us.fullname as nombrec, hour(now()) - (p.creation_date) as hora, minute(now()) - (p.creation_date) as minuto, second(now()) - (p.creation_date) as segundo from post p\n" +
             "inner join post_comment pc on p.id = pc.post_id\n" +
             "inner join user uspm on pc.user_id = uspm.id\n" +
             "inner join user us on p.user_id = us.id\n" +

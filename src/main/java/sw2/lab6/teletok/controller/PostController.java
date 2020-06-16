@@ -48,9 +48,14 @@ public class PostController {
 
 
     @GetMapping(value = {"", "/"})
-    public String listPost(Model model){
+    public String listPost(Model model, RedirectAttributes attr){
         List<ListaPosts> listaPosts = postRepository.obtenerListaPosts();
         List<String> mensajes = new ArrayList<String>();
+
+        if (listaPosts.size() <= 1){
+            attr.addFlashAttribute("msg", "No hay ningún post disponible");
+            return "redirect:/post/nopost";
+        }
 
         for (ListaPosts lp:
              listaPosts) {
@@ -151,6 +156,11 @@ public class PostController {
     @PostMapping("/post/buscar")
     public String postBuscar() {
         return "";
+    }
+
+    @GetMapping("/post/nopost")
+    public String noPost(){
+        return "post/SinPosts";
     }
 
 }
