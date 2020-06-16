@@ -21,14 +21,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-
+import org.springframework.web.bind.annotation.*;
+import sw2.lab6.teletok.repository.PostRepository;
 @Controller
 public class PostController {
     @Autowired
     PostRepository postRepository;
 
     @GetMapping(value = {"", "/"})
-    public String listPost(){
+    public String listPost(Model model){
+        model.addAttribute("listaposts",postRepository.obtenerListaPosts());
+
         return "post/list";
     }
 
