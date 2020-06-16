@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 @Component
 public class StorageServices {
-    String fileLocation = "C://Users//USER//Desktop//SW2//Labs_practico//Lab6//fotos";
+    String fileLocation = "C://Users//a2014//Desktop//fotos";
 
     public HashMap<String,String> store(MultipartFile file){
         HashMap<String,String> map = new HashMap<>();
